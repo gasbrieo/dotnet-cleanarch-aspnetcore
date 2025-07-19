@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23.x
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Install semantic-release
+        run: |
+          npm install -g semantic-release \
+            @semantic-release/changelog \
+            @semantic-release/git \
+            @semantic-release/github \
+            @semantic-release/commit-analyzer \
+            @semantic-release/release-notes-generator
+
+      - name: Determine next version
+        id: next_version
+        run: |
+          VERSION=$(semantic-release --dry-run | grep -oP '(?<=The next release version is ).*' | head -1 || echo "")
+          if [ -z "$VERSION" ]; then
+            echo "No relevant changes, skipping release."
+            exit 78
+          else
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run semantic-release
+        run: semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Build
+        run: dotnet build --configuration Release
+
+      - name: Pack NuGet
+        run: dotnet pack --configuration Release --no-build --no-restore --output ./nupkgs /p:Version=${{ steps.next_version.outputs.version }}
+
+      - name: Push package to NuGet
+        run: dotnet nuget push ./nupkgs/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
