@@ -1,5 +1,3 @@
-using Moq;
-
 namespace CleanArch.AspNetCore.UnitTests;
 
 public class EndpointExtensionsMapTests
