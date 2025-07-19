@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{03989834-FF4C-4962-A4CA-B3559742FCD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArch.AspNetCore", "src\CleanArch.AspNetCore\CleanArch.AspNetCore.csproj", "{2299920E-02AC-4014-8F4B-E6ACA9EDFD95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArch.AspNetCore.UnitTests", "tests\CleanArch.AspNetCore.UnitTests\CleanArch.AspNetCore.UnitTests.csproj", "{671F3152-5A78-42CA-A9A8-CE8B11AE8FCE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		.github\workflows\build.yml = .github\workflows\build.yml
+		CHANGELOG.md = CHANGELOG.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2299920E-02AC-4014-8F4B-E6ACA9EDFD95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2299920E-02AC-4014-8F4B-E6ACA9EDFD95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2299920E-02AC-4014-8F4B-E6ACA9EDFD95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2299920E-02AC-4014-8F4B-E6ACA9EDFD95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{671F3152-5A78-42CA-A9A8-CE8B11AE8FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{671F3152-5A78-42CA-A9A8-CE8B11AE8FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{671F3152-5A78-42CA-A9A8-CE8B11AE8FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{671F3152-5A78-42CA-A9A8-CE8B11AE8FCE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2299920E-02AC-4014-8F4B-E6ACA9EDFD95} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{671F3152-5A78-42CA-A9A8-CE8B11AE8FCE} = {03989834-FF4C-4962-A4CA-B3559742FCD4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A18CA220-DDF1-4E65-BAA7-6B85484675A1}
+	EndGlobalSection
+EndGlobal

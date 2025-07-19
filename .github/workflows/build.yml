@@ -1,0 +1,50 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: "zulu"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Install SonarScanner
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
+          export PATH="$PATH:/home/runner/.dotnet/tools"
+
+      - name: Run SonarCloud Scan
+        run: |
+          dotnet sonarscanner begin \
+            /k:"gasbrieo_dotnet-cleanarch-aspnetcore" \
+            /n:"dotnet-cleanarch-aspnetcore" \
+            /o:"gasbrieo" \
+            /d:sonar.host.url="https://sonarcloud.io" \
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml
+          dotnet build --configuration Release
+          dotnet test --configuration Release --no-build --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
