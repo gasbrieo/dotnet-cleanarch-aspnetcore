@@ -3,7 +3,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/gasbrieo/dotnet-cleanarch-aspnetcore)
 ![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/gasbrieo_dotnet-cleanarch-aspnetcore?server=https%3A%2F%2Fsonarcloud.io)
 ![Sonar Coverage](https://img.shields.io/sonar/coverage/gasbrieo_dotnet-cleanarch-aspnetcore?server=https%3A%2F%2Fsonarcloud.io)
-![NuGet](https://img.shields.io/nuget/v/Gasbrieo.DotNetArch.AspNetCore)
+![NuGet](https://img.shields.io/nuget/v/Gasbrieo.CleanArch.AspNetCore)
 
 A lightweight **ASP.NET Core integration library** for [dotnet-cleanarch](https://github.com/gasbrieo/dotnet-cleanarch), providing:
 
