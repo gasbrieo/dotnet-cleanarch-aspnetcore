@@ -2,7 +2,9 @@ namespace CleanArch.AspNetCore.UnitTests;
 
 public class EndpointExtensionsMapTests
 {
-    public sealed class MyEndpoint : IEndpoint
+    public interface IApiV1Endpoint : IEndpoint { }
+
+    public class MyV1Endpoint : IApiV1Endpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
@@ -20,26 +22,26 @@ public class EndpointExtensionsMapTests
         var provider = services.BuildServiceProvider();
 
         // Assert
-        var endpoints = provider.GetServices<IEndpoint>().ToList();
+        var endpoints = provider.GetServices<IApiV1Endpoint>().ToList();
         Assert.NotEmpty(endpoints);
-        Assert.Contains(endpoints, e => e.GetType() == typeof(MyEndpoint));
+        Assert.Contains(endpoints, e => e.GetType() == typeof(MyV1Endpoint));
     }
 
     [Fact]
     public void MapEndpoints_ShouldCallMapEndpointForAllResolvedEndpoints()
     {
         // Arrange
-        var fakeEndpoint = new Mock<IEndpoint>();
+        var fakeEndpoint = new Mock<IApiV1Endpoint>();
 
         var builder = WebApplication.CreateBuilder();
-        builder.Services.AddSingleton<IEndpoint>(fakeEndpoint.Object);
+        builder.Services.AddSingleton(fakeEndpoint.Object);
 
         var app = builder.Build();
 
         // Act
-        app.MapEndpoints();
+        app.MapEndpoints<IApiV1Endpoint>(new(1, 0));
 
         // Assert
-        fakeEndpoint.Verify(x => x.MapEndpoint(app), Times.Once);
+        fakeEndpoint.Verify(x => x.MapEndpoint(It.IsAny<IEndpointRouteBuilder>()), Times.Once);
     }
 }
