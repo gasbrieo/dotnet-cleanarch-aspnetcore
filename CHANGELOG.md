@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/compare/v1.2.0...v1.3.0) (2025-07-22)
+
+
+### Features
+
+* endpoint to be versioned by the user creating specific interface for each version ([#4](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/issues/4)) ([c6585d8](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/commit/c6585d81a0da49ce46ec57ef35b9b566d3dbadb3))
+
 # [1.2.0](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/compare/v1.1.0...v1.2.0) (2025-07-22)
 
 
