@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/compare/v1.1.0...v1.2.0) (2025-07-22)
+
+
+### Features
+
+* add result extensions ([#3](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/issues/3)) ([388ab6b](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/commit/388ab6be0f3cb8b95f717dc53afc43718110aa02))
+
 # [1.1.0](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/compare/v1.0.0...v1.1.0) (2025-07-19)
 
 
