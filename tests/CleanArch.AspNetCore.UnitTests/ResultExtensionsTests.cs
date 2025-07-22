@@ -27,8 +27,8 @@ public class ResultExtensionsTests
     public void Match_WhenIsSuccessWithValue_ShouldCallOnSuccess()
     {
         // Arrange
-        var successCallback = new Mock<Func<bool>>();
-        successCallback.Setup(c => c()).Returns(true);
+        var successCallback = new Mock<Func<int, bool>>();
+        successCallback.Setup(c => c(It.IsAny<int>())).Returns(true);
 
         var failureCallback = new Mock<Func<Result, bool>>();
         failureCallback.Setup(c => c(It.IsAny<Result>())).Returns(false);
@@ -40,7 +40,7 @@ public class ResultExtensionsTests
 
         // Assert
         Assert.True(output);
-        successCallback.Verify(c => c(), Times.Once);
+        successCallback.Verify(c => c(result.Value), Times.Once);
         failureCallback.Verify(c => c(It.IsAny<Result>()), Times.Never);
     }
 
