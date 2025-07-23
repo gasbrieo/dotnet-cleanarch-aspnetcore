@@ -12,7 +12,7 @@ public class EndpointExtensionsMapTests
     }
 
     [Fact]
-    public void AddEndpoints_ShouldRegisterThemAsTransient()
+    public void AddEndpoints_ThenRegistersThemAsTransient()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -28,7 +28,7 @@ public class EndpointExtensionsMapTests
     }
 
     [Fact]
-    public void MapEndpoints_ShouldCallMapEndpointForAllResolvedEndpoints()
+    public void MapEndpoints_ThenCallsMapEndpointForAllResolvedEndpoints()
     {
         // Arrange
         var fakeEndpoint = new Mock<IApiV1Endpoint>();
