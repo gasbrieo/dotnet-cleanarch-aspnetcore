@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/compare/v1.3.0...v1.4.0) (2025-07-23)
+
+
+### Features
+
+* change to return problemdetails and validationproblemdetails ([#5](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/issues/5)) ([97988e4](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/commit/97988e4c202a60aceaa3b3f737557f163d3ffb1e))
+
 # [1.3.0](https://github.com/gasbrieo/dotnet-cleanarch-aspnetcore/compare/v1.2.0...v1.3.0) (2025-07-22)
 
 
