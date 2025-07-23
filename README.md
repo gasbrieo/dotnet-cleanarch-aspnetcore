@@ -17,10 +17,11 @@ Designed to **reduce boilerplate** when exposing Clean Architecture building blo
 
 ## ✨ Features
 
-- ✅ **Map `Result` and `Result<T>` to HTTP ProblemDetails**
+- ✅ **Map `Result` and `Result<T>` from the domain to proper HTTP responses**
+- ✅ **`Validation` errors → `ValidationProblemDetails` (grouped by field)**
+- ✅ **`Problem` errors → `ProblemDetails` (single business rule error)**
 - ✅ **Automatic Minimal API endpoint registration** via `IEndpoint`
 - ✅ **Seamless integration with `dotnet-cleanarch` core errors**
-- ✅ **Dependency-free and clean abstractions**
 
 ---
 
@@ -59,19 +60,22 @@ app.MapPost("/users", async (CreateUserCommand command, IMediator mediator) =>
 
 ✅ `CustomResults.Problem(result)` automatically maps:
 
-- `Validation` & `Problem` → `400 Bad Request`
+- `Validation` → `400 Bad Request` with **ValidationProblemDetails**
+- `Problem` → `400 Bad Request` with **ProblemDetails**
 - `NotFound` → `404 Not Found`
 - `Conflict` → `409 Conflict`
 - `Failure` (default) → `500 Internal Server Error`
 
 ---
 
-**2️⃣ Minimal API Endpoint Discovery**
+**2️⃣ Minimal API Endpoint Discovery with API Versioning**
 
-Define endpoints implementing `IEndpoint`:
+Define endpoints implementing a **versioned interface**, for example `IEndpointV1`:
 
 ```csharp
-public class UsersEndpoint : IEndpoint
+public interface IEndpointV1 : IEndpoint {}
+
+public class UsersEndpoint : IEndpointV1
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
@@ -83,16 +87,17 @@ public class UsersEndpoint : IEndpoint
 }
 ```
 
-Register & map automatically:
+Then register & map automatically for that API version:
 
 ```csharp
-builder.Services.AddEndpoints(typeof(Program).Assembly);
+builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 var app = builder.Build();
 
-app.MapEndpoints();
+// Register only endpoints for version 1.0
+app.MapEndpoints<IEndpointV1>(new ApiVersion(1, 0));
 ```
 
-No manual route registration needed for each endpoint.
+This way, you can easily group endpoints by version without manually registering routes one by one.
 
 ---
 
@@ -100,11 +105,11 @@ No manual route registration needed for each endpoint.
 
 This package reuses the same `ErrorType` from **dotnet-cleanarch** and maps them to **ProblemDetails** transparently:
 
-- **Validation** → invalid request or domain rule violation
-- **Problem** → known infrastructure/application issue
-- **NotFound** → missing entity/resource
-- **Conflict** → conflicting state
-- **Failure** → unknown/unexpected error
+- **Validation** → multiple field errors → `ValidationProblemDetails` (`400 Bad Request`)
+- **Problem** → known infrastructure/application issue → `ProblemDetails` (`400 Bad Request`)
+- **NotFound** → missing entity/resource → `ProblemDetails` (`404 Not Found`)
+- **Conflict** → conflicting state → `ProblemDetails` (`409 Conflict`)
+- **Failure** → unknown/unexpected error → `ProblemDetails` (`500 Internal Server Error`)
 
 You define errors once in your **application/domain**, and this package handles the **HTTP mapping** consistently.
 
