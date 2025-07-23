@@ -26,9 +26,10 @@ public class CustomResultsTests
 
         // Act
         var httpResult = CustomResults.Problem(result);
-        var problem = httpResult as ProblemHttpResult;
 
         // Assert
+        var problem = Assert.IsType<ProblemHttpResult>(httpResult);
+
         Assert.NotNull(problem);
         Assert.Equal(expectedStatus, problem!.StatusCode);
         Assert.Equal(expectedLink, problem.ProblemDetails.Type);
@@ -37,6 +38,11 @@ public class CustomResultsTests
         {
             Assert.Equal("Server failure", problem.ProblemDetails.Title);
             Assert.Equal("An unexpected error occurred", problem.ProblemDetails.Detail);
+        }
+        else if (type == ErrorType.Validation)
+        {
+            Assert.Equal("Validation failure", problem.ProblemDetails.Title);
+            Assert.Equal("Some description", problem.ProblemDetails.Detail);
         }
         else
         {
@@ -51,22 +57,33 @@ public class CustomResultsTests
         // Arrange
         var errorList = new ErrorList("Validation.General",
         [
-            Error.Problem("Validation.Email", "Invalid email"),
-            Error.Problem("Validation.Password", "Weak password")
+            Error.Validation("Email", "Invalid email"),
+            Error.Validation("Password", "Weak password"),
+            Error.Validation("Password", "Too short")
         ]);
 
         var result = Result.Failure(errorList);
 
         // Act
         var httpResult = CustomResults.Problem(result);
-        var problem = httpResult as ProblemHttpResult;
 
         // Assert
-        Assert.NotNull(problem);
-        Assert.True(problem!.ProblemDetails.Extensions.ContainsKey("errors"));
+        var problem = Assert.IsType<ProblemHttpResult>(httpResult);
+        var validationResult = Assert.IsType<HttpValidationProblemDetails>(problem.ProblemDetails);
 
-        var errors = problem.ProblemDetails.Extensions["errors"] as IEnumerable<Error>;
-        Assert.NotNull(errors);
-        Assert.Equal(2, errors!.Count());
+        Assert.NotNull(validationResult);
+        Assert.Equal(StatusCodes.Status400BadRequest, validationResult.Status);
+        Assert.Equal("One or more validation errors occurred", validationResult.Title);
+
+        var fieldErrors = validationResult.Errors;
+
+        Assert.True(fieldErrors.ContainsKey("Email"));
+        Assert.Single(fieldErrors["Email"]);
+        Assert.Equal("Invalid email", fieldErrors["Email"].First());
+
+        Assert.True(fieldErrors.ContainsKey("Password"));
+        Assert.Equal(2, fieldErrors["Password"].Length);
+        Assert.Contains("Weak password", fieldErrors["Password"]);
+        Assert.Contains("Too short", fieldErrors["Password"]);
     }
 }
