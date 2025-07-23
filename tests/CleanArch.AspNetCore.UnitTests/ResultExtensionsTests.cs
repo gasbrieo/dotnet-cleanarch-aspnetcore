@@ -3,7 +3,7 @@ namespace CleanArch.AspNetCore.UnitTests;
 public class ResultExtensionsTests
 {
     [Fact]
-    public void Match_WhenIsSuccess_ShouldCallOnSuccess()
+    public void Match_WhenIsSuccess_ThenCallsOnSuccess()
     {
         // Arrange
         var successCallback = new Mock<Func<bool>>();
@@ -24,7 +24,7 @@ public class ResultExtensionsTests
     }
 
     [Fact]
-    public void Match_WhenIsSuccessWithValue_ShouldCallOnSuccess()
+    public void Match_WhenIsSuccessWithValue_ThenCallsOnSuccess()
     {
         // Arrange
         var successCallback = new Mock<Func<int, bool>>();
@@ -45,7 +45,7 @@ public class ResultExtensionsTests
     }
 
     [Fact]
-    public void Match_WhenIsFailure_ShouldCallOnFailure()
+    public void Match_WhenIsFailure_ThenCallsOnFailure()
     {
         // Arrange
         var successCallback = new Mock<Func<bool>>();
@@ -66,7 +66,7 @@ public class ResultExtensionsTests
     }
 
     [Fact]
-    public void Match_WhenIsFailureWithValue_ShouldCallOnFailure()
+    public void Match_WhenIsFailureWithValue_ThenCallsOnFailure()
     {
         // Arrange
         var successCallback = new Mock<Func<int, bool>>();

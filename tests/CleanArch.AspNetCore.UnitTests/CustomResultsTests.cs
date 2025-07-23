@@ -3,7 +3,7 @@ namespace CleanArch.AspNetCore.UnitTests;
 public class CustomResultsTests
 {
     [Fact]
-    public void Problem_WhenResultIsSuccess_ShouldThrowInvalidOperationException()
+    public void Problem_WhenResultIsSuccess_ThenThrowsInvalidOperationException()
     {
         // Arrange
         var result = Result.Success();
@@ -18,7 +18,7 @@ public class CustomResultsTests
     [InlineData(ErrorType.NotFound, StatusCodes.Status404NotFound, "https://tools.ietf.org/html/rfc7231#section-6.5.4")]
     [InlineData(ErrorType.Conflict, StatusCodes.Status409Conflict, "https://tools.ietf.org/html/rfc7231#section-6.5.8")]
     [InlineData(ErrorType.Failure, StatusCodes.Status500InternalServerError, "https://tools.ietf.org/html/rfc7231#section-6.6.1")]
-    public void Problem_WhenResultHasError_ShouldMapErrorTypeToExpectedStatusAndLink(ErrorType type, int expectedStatus, string expectedLink)
+    public void Problem_WhenResultHasError_ThenMapsErrorTypeToExpectedStatusAndLink(ErrorType type, int expectedStatus, string expectedLink)
     {
         // Arrange
         var error = new Error("Some.Code", "Some description", type);
@@ -52,7 +52,7 @@ public class CustomResultsTests
     }
 
     [Fact]
-    public void Problem_WhenErrorListIsUsed_ShouldAddErrorsToExtensions()
+    public void Problem_WhenErrorListIsUsed_ThenAddErrorsToExtensions()
     {
         // Arrange
         var errorList = new ErrorList("Validation.General",
